@@ -1,11 +1,13 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const uuid = require('uuid');
+const cors = require('cors');
 const spotifyRoutes = require('./routes/spotify-routes');
 
 const app = express();
 
-app.use(bodyParser.json());
+app.use(express.json());
+
+app.use(cors());
 
 app.use('/api/spotify', spotifyRoutes);
 

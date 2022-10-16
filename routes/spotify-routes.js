@@ -3,6 +3,8 @@ const spotifyController = require('../controllers/spotify-controller');
 
 const router = express.Router();
 
-router.get('/', spotifyController.getSpotifyAuth);
+router.get('/getClientParams', spotifyController.getSpotifyClientParams);
+
+router.get('/shows', spotifyController.getSpotifyShows);
 
 module.exports = router;
