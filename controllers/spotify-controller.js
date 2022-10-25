@@ -3,8 +3,8 @@ const uuid = require("uuid");
 const query = require("query-string");
 const axios = require("axios");
 
-const clientId = "b3b64a6e2d8b4c4796620f129cc84bb4";
-const clientSecret = "a9e42ba1c2c8436eb387626360c962f9";
+const clientId = process.env.SPOTIFY_CLIENT_ID;
+const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
 const redirect_uri = "http://localhost:3000/";
 const showsUrl =
   "https://api.spotify.com/v1/shows/173jVGeywfKnIW9mp6gG71/episodes?limit=3";
@@ -13,6 +13,7 @@ const stateKey = "spotify_auth_state";
 const state = uuid.v4();
 
 const getSpotifyClientParams = (req, res) => {
+  console.log(process.env.SPOTIFY_CLIENT_ID);
   res.cookie(state, stateKey, { sameSite: 'None', secure: true});
 
   res.status(200).json({
