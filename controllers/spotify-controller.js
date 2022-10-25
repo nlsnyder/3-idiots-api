@@ -12,8 +12,8 @@ const showsUrl =
 const stateKey = "spotify_auth_state";
 const state = uuid.v4();
 
-const getSpotifyClientParams = (req, res, next) => {
-  res.cookie(state, stateKey);
+const getSpotifyClientParams = (req, res) => {
+  res.cookie(state, stateKey, { sameSite: 'None', secure: true});
 
   res.status(200).json({
     response_type: "code",
@@ -42,6 +42,7 @@ const getSpotifyAccessToken = async (req, res) => {
       headers: {
         Authorization: "Basic " + authCode,
         "Content-Type": "application/x-www-form-urlencoded",
+        Cookie: 'SameSite=None; Secure'
       },
     }
   );
@@ -53,6 +54,7 @@ const getSpotifyShows = async (req, res) => {
   const shows = await axios.get(showsUrl, {
     headers: {
       Authorization: "Bearer " + req.body.accessToken,
+      Cookie: 'SameSite=None; Secure'
     },
   });
 
