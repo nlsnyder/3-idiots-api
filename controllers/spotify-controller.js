@@ -13,7 +13,6 @@ const stateKey = "spotify_auth_state";
 const state = uuid.v4();
 
 const getSpotifyClientParams = (req, res) => {
-  console.log(process.env.SPOTIFY_CLIENT_ID);
   res.cookie(state, stateKey, { sameSite: 'None', secure: true});
 
   res.status(200).json({
