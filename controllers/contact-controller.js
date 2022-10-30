@@ -1,49 +1,28 @@
 const mailConfig = require("../models/email-transporter");
-const validations = require("../util/validations");
+const { validationResult } = require("express-validator");
 
 const emailContactForm = (req, res) => {
-  const userName = req.body.name;
-  const userEmail = req.body.email;
-  const userMessage = req.body.message;
-
-  if (!validations.validateName(userName)) {
-    res
-      .status(400)
-      .json({ message: "Please enter a valid name.", status: "invalid" });
-      return;
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors?.errors });
   }
 
-  if (!validations.validateEmail(userEmail)) {
-    res
-      .status(400)
-      .json({ message: "Please enter a valid email.", status: "invalid" });
-      return;
-  }
+  const { name, email, message } = req.body;
 
-  if (!validations.validateSpecialCharacters(userMessage)) {
-    res
-      .status(400)
-      .json({ message: "Please enter a valid message.", status: "invalid" });
-      return;
-  }
-
-  mailConfig.options.params.name = userName;
-  mailConfig.options.params.email = userEmail;
-  mailConfig.options.params.message = userMessage;
+  mailConfig.options.params.name = name;
+  mailConfig.options.params.email = email;
+  mailConfig.options.params.message = message;
 
   mailConfig.api.sendTransacEmail(mailConfig.options).catch((err) => {
-    res.status(500).json({
-      message:
+    return res.status(500).json({
+      error:
         "Something went wrong when trying to submit contact form. Please try again.",
       status: "invalid",
       error: err,
     });
-    return;
   });
 
-  res
-    .status(200)
-    .json({ message: "Message sent successfully!", status: "valid" });
+  res.json({ message: "Message sent successfully!" });
 };
 
 exports.emailContactForm = emailContactForm;
