@@ -22,7 +22,7 @@ const contactUsEmailOptions = {
   to: receivers,
   templateId: 1,
   subject: "Contact Us | Form Submission",
-  params: { name: "", email: "", message: "" },
+  params: { name: "", email: "", heardFrom: "", whereFrom: "", message: "" },
 };
 
 module.exports = { options: contactUsEmailOptions, api: tranEmailApi };
