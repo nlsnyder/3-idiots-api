@@ -13,7 +13,7 @@ const sender = {
 
 const receivers = [
   {
-    email: "snides111@gmail.com",
+    email: process.env.MAIL_TO_HANDLE,
   },
 ];
 
